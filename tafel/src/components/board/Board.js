@@ -1,8 +1,24 @@
 import { useState, useEffect } from 'react'
+import io from 'socket.io-client'
+
 import './Board.css'
 
 const Board = () => {
   const [canvasState, setCanvasState] = useState('')
+  const socket = io.connect("http://localhost:3003")
+
+  socket.on("canvas-data", function(data) {
+    let image = new Image()
+    console.log(image);
+    let canvas = document.getElementById('board');
+    console.log(canvas);
+    let ctx = canvas.getContext('2d');
+    console.log(ctx);
+    image.onload = function() {
+      ctx.drawImage(image, 0, 0)
+    }; 
+    image.src = data;
+  })
 
   // equivalent to windows.onload()
   useEffect(() => {;
@@ -58,6 +74,8 @@ const Board = () => {
     if(canvasState !== undefined) clearTimeout(canvasState);
     setTimeout(function(){
       setCanvasState(canvas.toDataURL("image/png"));
+      console.log(canvasState)
+      socket.emit("canvas-data", canvasState)
     }, 1000)
   }
 
