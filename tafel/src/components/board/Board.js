@@ -1,8 +1,9 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import './Board.css'
 
 const Board = () => {
- 
+  const [canvasState, setCanvasState] = useState('')
+
   // equivalent to windows.onload()
   useEffect(() => {;
     drawOnCanvas();
@@ -31,7 +32,6 @@ const Board = () => {
         mouse.y = e.pageY - this.offsetTop;
     }, false);
 
-
     /* Drawing on Paint App */
     ctx.lineWidth = 5;
     ctx.lineJoin = 'round';
@@ -53,6 +53,12 @@ const Board = () => {
         ctx.closePath();
         ctx.stroke();
     };
+
+    // Limits server calls to tranmist Canvas State
+    if(canvasState !== undefined) clearTimeout(canvasState);
+    setTimeout(function(){
+      setCanvasState(canvas.toDataURL("image/png"));
+    }, 1000)
   }
 
   return (
