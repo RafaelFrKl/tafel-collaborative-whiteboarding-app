@@ -1,19 +1,15 @@
 import Board from "../board/Board"
+import './Container.css'
 
 const Container = () => {
-  const containerStyle = {
-    color: 'green',
-    fontStyle: 'italic',
-    fontSize: 16
-  }
 
   return (
-    <div style={containerStyle}>
+    <div className='container'>
         <div className='color-picker-container'>
             <input type='color' />
         </div>
         <div className='board-container'>
- 
+          <Board></Board>
         </div>
     </div>
   )
