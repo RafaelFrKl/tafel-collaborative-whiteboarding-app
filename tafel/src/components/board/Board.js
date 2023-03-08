@@ -3,21 +3,27 @@ import io from 'socket.io-client'
 
 import './Board.css'
 
-const Board = () => {
-  const [canvasState, setCanvasState] = useState('')
+const Board = ({ color, brushSize }) => {
   const socket = io.connect("http://localhost:3003")
+  let timeout
+  let isDrawing = false //Solves race condition
+  console.log(color, brushSize)
 
   socket.on("canvas-data", function(data) {
-    let image = new Image()
-    console.log(image);
-    let canvas = document.getElementById('board');
-    console.log(canvas);
-    let ctx = canvas.getContext('2d');
-    console.log(ctx);
-    image.onload = function() {
-      ctx.drawImage(image, 0, 0)
-    }; 
-    image.src = data;
+      let interval = setInterval(function() {
+        if(isDrawing) return
+        isDrawing = true
+        clearInterval(interval)
+        let image = new Image()
+        let canvas = document.getElementById('board')
+        let ctx = canvas.getContext('2d')
+        image.onload = function() {
+          ctx.drawImage(image, 0, 0)
+
+          isDrawing = false
+        }; 
+      image.src = data
+      }, 200)   
   })
 
   // equivalent to windows.onload()
@@ -49,10 +55,10 @@ const Board = () => {
     }, false);
 
     /* Drawing on Paint App */
-    ctx.lineWidth = 5;
+    ctx.lineWidth = brushSize;
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
-    ctx.strokeStyle = 'blue';
+    ctx.strokeStyle = color;
 
     canvas.addEventListener('mousedown', function(event) {
         canvas.addEventListener('mousemove', onPaint, false);
@@ -62,21 +68,20 @@ const Board = () => {
         canvas.removeEventListener('mousemove', onPaint, false);
     }, false);
     
+
     const onPaint = () => {
         ctx.beginPath();
         ctx.moveTo(last_mouse.x, last_mouse.y);
         ctx.lineTo(mouse.x, mouse.y);
         ctx.closePath();
         ctx.stroke();
-    };
 
-    // Limits server calls to tranmist Canvas State
-    if(canvasState !== undefined) clearTimeout(canvasState);
-    setTimeout(function(){
-      setCanvasState(canvas.toDataURL("image/png"));
-      console.log(canvasState)
-      socket.emit("canvas-data", canvasState)
-    }, 1000)
+        if(timeout !== undefined) clearTimeout(timeout);
+        timeout = setTimeout(function(){
+          let baseImage = canvas.toDataURL("image/png")
+          socket.emit("canvas-data", baseImage)
+        }, 500)  
+    };
   }
 
   return (
