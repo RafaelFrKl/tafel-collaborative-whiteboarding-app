@@ -7,16 +7,16 @@ const Board = ({ color, brushSize }) => {
   const socket = io.connect("http://localhost:3003")
   let timeout
   let isDrawing = false //Solves race condition
-  console.log(color, brushSize)
 
   socket.on("canvas-data", function(data) {
-      let interval = setInterval(function() {
+      console.log("On Recieval:", color, brushSize)
+        let interval = setInterval(function() {
         if(isDrawing) return
         isDrawing = true
         clearInterval(interval)
         let image = new Image()
-        let canvas = document.getElementById('board')
-        let ctx = canvas.getContext('2d')
+        const canvas = document.getElementById('board');
+        const ctx = canvas.getContext('2d');
         image.onload = function() {
           ctx.drawImage(image, 0, 0)
 
@@ -32,10 +32,8 @@ const Board = ({ color, brushSize }) => {
   }, []);
 
   const drawOnCanvas = () => {
-    let canvas = document.getElementById('board');
-    console.log(canvas);
-    let ctx = canvas.getContext('2d');
-    console.log(ctx);
+    const canvas = document.getElementById('board');
+    const ctx = canvas.getContext('2d');
 
     let sketch = document.querySelector('#sketch');
     let sketch_style = getComputedStyle(sketch);
