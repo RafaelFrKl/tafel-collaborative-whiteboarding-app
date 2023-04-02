@@ -48,8 +48,11 @@ const Board = ({ color, brushSize }) => {
         last_mouse.x = mouse.x;
         last_mouse.y = mouse.y;
 
-        mouse.x = e.pageX - this.offsetLeft;
-        mouse.y = e.pageY - this.offsetTop;
+        let rect = canvas.getBoundingClientRect();
+        let scaleX = canvas.width / rect.width;
+        let scaleY = canvas.height / rect.height;
+        mouse.x = (e.clientX - rect.left) * scaleX;
+        mouse.y = (e.clientY - rect.top) * scaleY;
     }, false);
 
     /* Drawing on Paint App */
