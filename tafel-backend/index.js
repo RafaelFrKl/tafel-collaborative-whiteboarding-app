@@ -20,6 +20,11 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('canvas-data', data)
         console.log(data)
     })
+
+    socket.on('clear-data', (data) => {
+        socket.broadcast.emit('clear-data', data)
+        console.log(data)
+    })
 })
 
 const PORT = process.env.PORT

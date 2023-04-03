@@ -12,7 +12,7 @@ const Container = () => {
 
   const handleChangeBrushSize = (e) => {
     setBrushSize(e.target.value)
-  }
+  }  
 
   return (
     <div className='container'>
@@ -32,7 +32,7 @@ const Container = () => {
                 <option>30</option>
               </select>
           </div>
-          </div>
+        </div>
         <div className='board-container'>
           <Board color={color} brushSize={brushSize}></Board>
         </div>

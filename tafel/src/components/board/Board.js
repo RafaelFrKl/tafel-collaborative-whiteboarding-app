@@ -10,7 +10,7 @@ const Board = ({ color, brushSize }) => {
 
   socket.on("canvas-data", function(data) {
       console.log("On Recieval:", color, brushSize)
-        let interval = setInterval(function() {
+      let interval = setInterval(function() {
         if(isDrawing) return
         isDrawing = true
         clearInterval(interval)
@@ -85,9 +85,29 @@ const Board = ({ color, brushSize }) => {
     };
   }
 
+  const [clearCanvas, setColor] = useState('#000000')
+
+  socket.on("clear-data", function(data) {
+      console.log("On Recieval:", data)
+      if (data){
+        const canvas = document.getElementById('board');
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+      }
+  })
+
+  const handleClear = (e) => {
+    const canvas = document.getElementById('board');
+    const context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    let clearCanvas = true
+    socket.emit("clear-data", clearCanvas)
+  }
+
   return (
     <div className="sketch" id='sketch'>
-        <canvas className="board" id="board"></canvas>
+      <button onClick={handleClear}>Clear</button>
+      <canvas className="board" id="board"></canvas> 
     </div>
   )
 }
