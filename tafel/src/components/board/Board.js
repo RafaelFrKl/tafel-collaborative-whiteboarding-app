@@ -6,7 +6,7 @@ import './Board.css'
 const Board = ({ color, brushSize }) => {
   const socket = io.connect("http://localhost:3003")
   let timeout
-  let isDrawing = false //Solves race condition
+  let isDrawing = false // Solves race condition
 
   socket.on("canvas-data", function(data) {
       console.log("On Recieval:", color, brushSize)
@@ -27,9 +27,19 @@ const Board = ({ color, brushSize }) => {
   })
 
   // equivalent to windows.onload()
-  useEffect(() => {;
+  useEffect(() => {
     drawOnCanvas();
   }, []);
+
+  // update color and brush size whenever changed by user
+  useEffect(() => {
+    const canvas = document.getElementById('board');
+    const ctx = canvas.getContext('2d');
+    ctx.lineWidth = brushSize;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = color;
+  }, [color, brushSize])
 
   const drawOnCanvas = () => {
     const canvas = document.getElementById('board');
@@ -56,10 +66,6 @@ const Board = ({ color, brushSize }) => {
     }, false);
 
     /* Drawing on Paint App */
-    ctx.lineWidth = brushSize;
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = color;
 
     canvas.addEventListener('mousedown', function(event) {
         canvas.addEventListener('mousemove', onPaint, false);
