@@ -5,6 +5,7 @@ import LoginForm from './components/LoginForm'
 import CreateUserForm from './components/CreateUserForm'
 import loginService from './services/login'
 import createUserService from './services/createUser'
+import createUser from './services/createUser';
 
 function App() {
   const [errorMessage, setErrorMessage] = useState(null)
@@ -37,21 +38,19 @@ function App() {
     }
   }
 
-  const handleCreateUser = async (event) => {
-    event.preventDefault()
-    try {
-      const role = null
-      const user = await createUserService.createUser({
-        newUsername, newName, role, newPassword
-      })
-      loginService.setToken(user.token)
-      window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user)
-      )
-      setUser(user)
-      setUsername('')
-      setPassword('')
-    } catch (exception) {
+    const addUser = async (event) => {
+      event.preventDefault()
+      try {
+        const newRole = "Student"
+        console.log(newUsername, newName, newRole, newPassword);
+        await createUserService.createUser({
+            username: newUsername,
+            name: newName,
+            role: newRole,
+            password: newPassword
+        })
+        
+      }catch (exception) {
       setErrorMessage('Error creating user: ' + exception)
       setTimeout(() => {
         setErrorMessage(null)
@@ -90,7 +89,7 @@ function App() {
             handleUsernameChange={({ target }) => setNewUsername(target.value)}
             handleNameChange={({ target }) => setNewName(target.value)}
             handlePasswordChange={({ target }) => setNewPassword(target.value)}
-            handleSubmit={handleCreateUser}
+            handleSubmit={addUser}
           />
         </div>
       }

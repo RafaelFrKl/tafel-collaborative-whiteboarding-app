@@ -1,14 +1,9 @@
 import axios from 'axios'
 const baseUrl = 'http://localhost:3002/api/users'
 
-let token = null
-
-const setToken = newToken => {
-  token = `Bearer ${newToken}`
-}
-
-const createUser = async user => {
-  const response = await axios.post(baseUrl, user)
+const createUser = async newUser => {
+  console.log(newUser)
+  const response = await axios.post(baseUrl, newUser)
   return response.data
 }
 

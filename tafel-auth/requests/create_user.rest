@@ -1,0 +1,29 @@
+### Create User
+post http://localhost:3002/api/users
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "name": "Test",
+    "role": "Student",
+    "password": "testpass"
+}
+
+### Get All Users
+get http://localhost:3002/api/users
+Content-Type: application/json
+
+### Get individual User
+get http://localhost:3002/api/users/640e9a98db031b2186a0d2cb
+Content-Type: application/json
+
+### Test - Update User
+put http://localhost:3002/api/users/640e9a98db031b2186a0d2cb
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "name": "Test",
+    "role": "Teacher",
+    "passwordHash": "testpass"
+}
