@@ -49,7 +49,9 @@ function App() {
             role: newRole,
             password: newPassword
         })
-        
+        setNewUsername('')
+        setNewName('')
+        setNewPassword('')
       }catch (exception) {
       setErrorMessage('Error creating user: ' + exception)
       setTimeout(() => {
