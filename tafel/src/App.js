@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import Container from "./components/container/Container";
 import Notification from './components/Notification';
-import LoginForm from './components/LoginForm'
+import LoginForm from './components/login/LoginForm'
 import CreateUserForm from './components/CreateUserForm'
 import loginService from './services/login'
 import createUserService from './services/createUser'
 import createUser from './services/createUser';
+import Typography from '@mui/material/Typography';
 
 function App() {
   const [errorMessage, setErrorMessage] = useState(null)
@@ -70,7 +71,15 @@ function App() {
 
   return (
     <>
-      <h1>Tafel Collaborative Whiteboard app</h1>
+      <Typography 
+        variant="h4" 
+        fontFamily="Roboto" 
+        sx={{ 
+          margin: '2rem',
+          fontWeight: 'bold',
+        }}>
+        Tafel Collaborative Whiteboard app
+      </Typography>
 
       <Notification message={errorMessage} />
 
@@ -83,7 +92,7 @@ function App() {
             handlePasswordChange={({ target }) => setPassword(target.value)}
             handleSubmit={handleLogin}
           />
-          <CreateUserForm
+          {/*<CreateUserForm
             username={newUsername}
             fullName={newName}
             password={newPassword}
@@ -92,7 +101,7 @@ function App() {
             handleNameChange={({ target }) => setNewName(target.value)}
             handlePasswordChange={({ target }) => setNewPassword(target.value)}
             handleSubmit={addUser}
-          />
+          />*/}
         </div>
       }
       {user &&
