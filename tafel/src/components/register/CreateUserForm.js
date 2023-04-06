@@ -7,7 +7,6 @@ const CreateUserForm = ({
   handleUsernameChange,
   handleNameChange,
   handlePasswordChange,
-  handleShowRegisterForm,
   username,
   fullName,
   password
@@ -17,7 +16,7 @@ const CreateUserForm = ({
       sx={{
         padding: 5,
         boxShadow: 3,
-        width: '225px',
+        width: '300px',
         marginLeft: '2rem'
       }}
     >
