@@ -1,22 +1,22 @@
 import { useState } from 'react'
 import Container from "./components/container/Container";
-import Notification from './components/Notification';
+import Notification from './components/notification/Notification';
 import LoginForm from './components/login/LoginForm'
-import CreateUserForm from './components/CreateUserForm'
+import createUserService from './services/createUser.js'
 import loginService from './services/login'
-import createUserService from './services/createUser'
-import createUser from './services/createUser';
 import Typography from '@mui/material/Typography';
+import CreateUserForm from './components/register/CreateUserForm';
 
 function App() {
   const [errorMessage, setErrorMessage] = useState(null)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
   const [newUsername, setNewUsername] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [newName, setNewName] = useState('')
-  const [user, setUser] = useState(null)
+  const [showRegisterForm, setShowRegisterForm] = useState(false)
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -53,6 +53,7 @@ function App() {
         setNewUsername('')
         setNewName('')
         setNewPassword('')
+        setShowRegisterForm(false)
       }catch (exception) {
       setErrorMessage('Error creating user: ' + exception)
       setTimeout(() => {
@@ -60,7 +61,6 @@ function App() {
       }, 5000)
     }
   }
-
   const handleLogout = async (event) => {
     // Deletes logged in User from local storage
     window.localStorage.removeItem('loggedNoteappUser')
@@ -68,6 +68,9 @@ function App() {
     window.location.reload();
   }
 
+  const handleShowRegisterForm = () => {
+    setShowRegisterForm(true)
+  }
 
   return (
     <>
@@ -83,28 +86,28 @@ function App() {
 
       <Notification message={errorMessage} />
 
-      {!user &&
-        <div>
-          <LoginForm
-            username={username}
-            password={password}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            handleSubmit={handleLogin}
-          />
-          {/*<CreateUserForm
-            username={newUsername}
-            fullName={newName}
-            password={newPassword}
+      {!user && !showRegisterForm &&
+        <LoginForm
+          username={username}
+          password={password}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleSubmit={handleLogin}
+          handleShowRegisterForm={handleShowRegisterForm}
+        />}
+      {!user && showRegisterForm &&
+        <CreateUserForm
+          username={newUsername}
+          fullName={newName}
+          password={newPassword}
 
-            handleUsernameChange={({ target }) => setNewUsername(target.value)}
-            handleNameChange={({ target }) => setNewName(target.value)}
-            handlePasswordChange={({ target }) => setNewPassword(target.value)}
-            handleSubmit={addUser}
-          />*/}
-        </div>
+          handleUsernameChange={({ target }) => setNewUsername(target.value)}
+          handleNameChange={({ target }) => setNewName(target.value)}
+          handlePasswordChange={({ target }) => setNewPassword(target.value)}
+          handleSubmit={addUser}
+        />
       }
-      {user &&
+      {user && 
         <div>
           <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
           <Container></Container>
