@@ -1,30 +1,30 @@
-import { Typography, Grid, Paper } from '@mui/material';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import { Typography, Grid, Paper } from '@mui/material'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
 
 const LoginForm = ({
-  handleSubmit,
-  handleUsernameChange,
-  handlePasswordChange,
-  handleShowRegisterForm,
-  username,
-  password,
+    handleSubmit,
+    handleUsernameChange,
+    handlePasswordChange,
+    handleShowRegisterForm,
+    username,
+    password,
 }) => {
     return (
-        <Paper 
-            sx={{ 
+        <Paper
+            sx={{
                 padding: 5,
-                boxShadow: 3, 
+                boxShadow: 3,
                 width: '225px',
                 marginLeft: '2rem'
             }}
-            >
-            <Typography 
-                variant="h5" 
-                fontFamily="Roboto" 
+        >
+            <Typography
+                variant="h5"
+                fontFamily="Roboto"
                 mb={2}
-                sx={{ 
-                fontWeight: 'bold',
+                sx={{
+                    fontWeight: 'bold',
                 }}
             >
                 Sign in
@@ -33,32 +33,32 @@ const LoginForm = ({
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <TextField
-                        id="user-field"
-                        label="Username"
-                        variant="outlined"
-                        value={username}
-                        onChange={handleUsernameChange}
-                        sx={{ borderWidth: '2px'}}
+                            id="user-field"
+                            label="Username"
+                            variant="outlined"
+                            value={username}
+                            onChange={handleUsernameChange}
+                            sx={{ borderWidth: '2px' }}
                         />
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                        id="password-field"
-                        label="Password"
-                        variant="outlined"
-                        type="password"
-                        value={password}
-                        onChange={handlePasswordChange}
+                            id="password-field"
+                            label="Password"
+                            variant="outlined"
+                            type="password"
+                            value={password}
+                            onChange={handlePasswordChange}
                         />
                     </Grid>
                     <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Button 
-                            type="submit" 
+                        <Button
+                            type="submit"
                             variant="contained"
-                        >   
+                        >
                             login
                         </Button>
-                        <Button 
+                        <Button
                             variant="text"
                             onClick={handleShowRegisterForm}
                         >
@@ -68,7 +68,7 @@ const LoginForm = ({
                 </Grid>
             </form>
         </Paper>
-    );
-};
+    )
+}
 
-export default LoginForm;
+export default LoginForm
