@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3002/api/login'
+const baseUrl = 'http://localhost:3001/api/login'
 
 // eslint-disable-next-line no-unused-vars
 let token = null

@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3002/api/users'
+const baseUrl = 'http://localhost:3001/api/users'
 
 const createUser = async newUser => {
     console.log(newUser)
