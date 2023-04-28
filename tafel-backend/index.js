@@ -31,7 +31,7 @@ mongoose.connect(config.MONGODB_URI)
         logger.error('error connecting to MongoDB:', error.message)
     })
 
-//app.use(express.static('build')) // Use Build
+app.use(express.static('build')) // Use Build
 app.use(cors())
 app.use(express.json())
 app.use('/api/users', usersRouter)
