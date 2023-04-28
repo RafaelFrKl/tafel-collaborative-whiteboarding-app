@@ -5,7 +5,7 @@ import io from 'socket.io-client'
 import './Board.css'
 
 const Board = ({ color, brushSize }) => {
-    const socket = io.connect('http://localhost:3003')
+    const socket = io.connect('http://localhost:3001')
     let timeout
     let isDrawing = false // Solves race condition
 
